@@ -1,13 +1,4 @@
 
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-This is a temporary script file.
-"""
-
-
-
 """
 
 This specific code segment is to calculate my winrate over a certain number of games 
@@ -34,8 +25,8 @@ There is an infinite loop when I choose a number over how many games I've played
 #         user_input = int(input("Enter how many summon Aery akali games you want to use for winrate: "))
 #     except ValueError:
 #         print("thats not a number silly!")
-    
-    
+
+
 # for match in summoner.match_history:
 #     p = match.participants[summoner]
 #     if(p.runes.keystone.name == "Summon Aery" and p.champion.name == "Akali"):
@@ -48,9 +39,8 @@ There is an infinite loop when I choose a number over how many games I've played
 
 # winrate = (100 * (wins / total_games))
 # print(f"Using summon aery on akali, you have a {winrate}% winrate, yayyyy")
-    
 
-    
+
 """
 
 This segment of code was used to Ask the user what champ and what rune they
@@ -81,7 +71,7 @@ how many games you've played using that setup!
 #         num_of_games = int(input("How many games should we take into account"))
 #     except ValueError:
 #         print("thats not a number silly!")
-    
+
 
 # history = summoner.match_history
 
@@ -96,8 +86,8 @@ how many games you've played using that setup!
 #             break
 
 # winrate = (100 * (wins / total_games))
-# print(f"Using {rune} on {champ}, you have a {winrate}% winrate, yayyyy")   
-    
+# print(f"Using {rune} on {champ}, you have a {winrate}% winrate, yayyyy")
+
 
 """
 
@@ -132,7 +122,6 @@ it will just take all the games into account!
 # filtered_history = []
 
 
-
 # history = summoner.match_history
 
 # for match in history:
@@ -142,14 +131,14 @@ it will just take all the games into account!
 #     p = match.participants[summoner]
 #     if(p.runes.keystone.name == rune and p.champion.name == champ):
 #         filtered_history.append(match)
-        
-        
+
+
 # for match in filtered_history:
 #     p = match.participants[summoner]
 #     if(p.team.win):
 #         wins += 1
 #     total_games += 1
-# try:  
+# try:
 #     winrate = (100 * (wins / total_games))
 # except ZeroDivisionError:
 #     print(f"You dont have any games playing {champ} using {rune} in your last {game_limit} games")
@@ -225,28 +214,25 @@ separate code segment JUST for the overall winrate, and see if that helps
 #     return filtered_history
 
 
-
-
-       
 # if(champ and keystone):
 #     filtered_history = filter_by_both(history, champ, keystone)
-    
+
 # elif(champ):
 #     filtered_history = filter_by_champion(history, champ)
-    
+
 # elif(keystone):
 #     filtered_history = filter_by_keystone(history, keystone)
-    
+
 # else:
 #     filtered_history = history
 
-        
+
 # for match in filtered_history:
 #     p = match.participants[summoner]
 #     if(p.team.win):
 #         wins += 1
 #     total_games += 1
-# try:  
+# try:
 #     winrate = (100 * (wins / total_games))
 # except ZeroDivisionError:
 #     print(f"You dont have any games playing {champ} using {keystone} in your last {game_limit} games")
@@ -305,13 +291,14 @@ as long as the games im trying to look at are more than 3 days old i guess ha ha
 
 """
 
-import cassiopeia as cass
 
+import cassiopeia as cass
 f = open("api_key.txt", "r")
 api = f.read()
 f.close()
 
-cass.set_riot_api_key(api)  # This overrides the value set in your configuration/settings.
+# This overrides the value set in your configuration/settings.
+cass.set_riot_api_key(api)
 
 summoner = cass.get_summoner(name="CanYouLimbo", region="NA")
 
@@ -324,86 +311,83 @@ champ = input("Enter a champion (Enter nothing to look at all champs): ")
 keystone = input("Enter a keystone (Enter nothing to look at all keystones): ")
 
 
-def filter_by_both(match_history, champion, keystone): #return filtered match history
+def filter_by_both(match_history, champion, keystone):  # return filtered match history
     filtered_history = []
     game = 0
     for match in match_history:
-        if(game == game_limit):
+        if (game == game_limit):
             break
-        game +=1
+        game += 1
         p = match.participants[summoner]
-        if(p.runes.keystone.name == keystone and p.champion.name == champ):
+        if (p.runes.keystone.name == keystone and p.champion.name == champion):
             filtered_history.append(match)
     return filtered_history
 
 
-def filter_by_champion(match_history, champion): #return filtered match history
+def filter_by_champion(match_history, champion):  # return filtered match history
     filtered_history = []
     game = 0
     for match in match_history:
-        if(game == game_limit):
+        if (game == game_limit):
             break
-        game +=1
+        game += 1
         p = match.participants[summoner]
-        if(p.champion.name == champ):
-            filtered_history.append(match)
-    return filtered_history
-
-def filter_by_keystone(match_history, keystone): #return filtered match history
-    filtered_history = []
-    game = 0
-    for match in match_history:
-        if(game == game_limit):
-            break
-        game +=1
-        p = match.participants[summoner]
-        if(p.runes.keystone.name == keystone):
+        if (p.champion.name == champion):
             filtered_history.append(match)
     return filtered_history
 
 
+def filter_by_keystone(match_history, keystone):  # return filtered match history
+    filtered_history = []
+    game = 0
+    for match in match_history:
+        if (game == game_limit):
+            break
+        game += 1
+        p = match.participants[summoner]
+        if (p.runes.keystone.name == keystone):
+            filtered_history.append(match)
+    return filtered_history
 
 
-       
-if(champ and keystone):
+if (champ and keystone):
     filtered_history = filter_by_both(history, champ, keystone)
-    
-elif(champ):
+
+elif (champ):
     filtered_history = filter_by_champion(history, champ)
-    
-elif(keystone):
+
+elif (keystone):
     filtered_history = filter_by_keystone(history, keystone)
-    
+
 else:
     filtered_history = history
 
-        
+
 for match in filtered_history:
     p = match.participants[summoner]
-    if(game == game_limit):
+    if (game == game_limit):
         break
-    game +=1
-    if(p.team.win):
+    game += 1
+    if (p.team.win):
         wins += 1
     total_games += 1
-try:  
+try:
     winrate = (100 * (wins / total_games))
 except ZeroDivisionError:
-    print(f"You dont have any games playing {champ} using {keystone} in your last {game_limit} games")
+    print(
+        f"You dont have any games playing {champ} using {keystone} in your last {game_limit} games")
 else:
-    print(f"Using {keystone} on {champ}, you have a {winrate}% winrate over {total_games} game(s), yayyyy")
+    print(
+        f"Using {keystone} on {champ}, you have a {winrate}% winrate over {total_games} game(s), yayyyy")
 
-    
-    
 
-    
 """
 
 This is where I tried to make winrate into a separate function, which i think is a step in the right direction
 but I can't get the total games to work, ill have to wait and see on this one
 
 """
-    
+
 # import cassiopeia as cass
 
 # f = open("api_key.txt", "r")
@@ -470,57 +454,27 @@ but I can't get the total games to work, ill have to wait and see on this one
 #         if(p.team.win):
 #             wins += 1
 #         total_games += 1
-#     try:  
+#     try:
 #         return 100 * (wins / total_games)
 #     except ZeroDivisionError:
 #         return 0
 
 
-       
 # if(champ and keystone):
 #     filtered_history = filter_by_both(history, champ, keystone)
 #     winrate = winrate(filtered_history)
-    
-    
+
+
 # elif(champ):
 #     filtered_history = filter_by_champion(history, champ)
 #     winrate = winrate(filtered_history)
-    
+
 # elif(keystone):
 #     filtered_history = filter_by_keystone(history, keystone)
 #     winrate = winrate(filtered_history)
-    
+
 # else:
 #     winrate = winrate(history)
 
 
 # print(f"Using {keystone} on {champ}, you have a {winrate}% winrate over {total_games} game(s), yayyyy")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
